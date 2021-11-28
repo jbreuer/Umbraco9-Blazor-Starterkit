@@ -62,5 +62,30 @@ namespace Umbraco9.Backoffice.Controllers.v1
                 Content = JSON.ToNiceJSON(new HomepageModel(homePage))
             };
         }
+        
+        public ActionResult GetMockup()
+        {
+            if (_umbracoHelperAccessor.TryGetUmbracoHelper(out var umbracoHelper) is false)
+            {
+                return StatusCode(500);
+            }
+
+            var rootNode = umbracoHelper.ContentAtRoot().FirstOrDefault();
+            if (rootNode is null)
+            {
+                return NotFound();
+            }
+
+            var mockup = rootNode.Descendant<Mockup>() ;
+            if (mockup is null)
+            {
+                return NotFound();
+            }
+
+            return new ContentResult()
+            {
+                Content = mockup.MockupJson
+            };
+        }
     }
 }
