@@ -39,5 +39,25 @@ namespace Umbraco9.Blazor.Services
                 return null;
             }
         }
+        
+        public async Task<HomepageModel> GetMockup()
+        {
+            try
+            {
+                var client = _clientFactory.CreateClient();
+                var response = await client.GetAsync(("http://localhost:13457/api/v1/application/getMockup"));
+                if (response.IsSuccessStatusCode)
+                {
+                    var readStream = response.Content.ReadAsStringAsync().Result;
+                    return JSON.ToObject<HomepageModel>(readStream);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace Umbraco9.Blazor.Services
     public interface IContentDeliveryService
     {
         public Task<HomepageModel> GetHomepage();
+        public Task<HomepageModel> GetMockup();
     }
 }
